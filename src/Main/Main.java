@@ -1,7 +1,5 @@
 package Main;
 
-import java.io.FileNotFoundException;
-
 import com.ham.File.*;
 
 public class Main {
@@ -13,6 +11,6 @@ public class Main {
 		FileInput inputFile = new FileInput(file.getFilePath());
 		
 		//파일 출력
-		FileOutput outputFile = new FileOutput(inputFile.getSheetMap());
+		FileOutput outputFile = new FileOutput(inputFile.getSheetMap(), file.getFilePath());
 	}
 }

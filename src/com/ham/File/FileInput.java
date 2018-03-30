@@ -9,15 +9,19 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.ham.Config.FileInputConfig;
+
 public class FileInput{
-	private HashMap<String, HashMap> SheetMap = new HashMap<String, HashMap>();
-	private HashMap<String, ArrayList> MarginMap;
-	private ArrayList<String> EtcList;
+	private HashMap<String, HashMap> sheetMap = new HashMap<String, HashMap>();
+	private HashMap<String, ArrayList> marginMap;
+	private ArrayList<String> etcList;
 	private ArrayList<ArrayList<String>> tmpList;
 	
 	private int sheets;
 	private int rows;
 	private int cells;
+	
+	private int jumpoCode;
 	
 	XSSFWorkbook workBook;
 	
@@ -32,17 +36,45 @@ public class FileInput{
 		
 		//시트 수만큼 반복
 		for(int sheetIndex= 0; sheetIndex < sheets; sheetIndex++){
-			MarginMap = new HashMap<String, ArrayList>();
+			marginMap = new HashMap<String, ArrayList>();
 			
 			XSSFSheet sheet = workBook.getSheetAt(sheetIndex);
 			String sheetName = sheet.getSheetName();
 			rows = sheet.getPhysicalNumberOfRows();
+			
+			
+			switch(sheetName){
+				case "광주" :
+					jumpoCode = FileInputConfig.GWANGJU;
+					break;
+				case "마산" :
+					jumpoCode = FileInputConfig.MASAN;
+					break;
+				case "대구" :
+					jumpoCode = FileInputConfig.DAEGU;
+					break;
+				case "경기" :
+					jumpoCode = FileInputConfig.GYEONGGI;
+					break;
+				case "명동" :
+					jumpoCode = FileInputConfig.MYEONGDONG;
+					break;
+				
+			}
+			
 					
 			//행의 수만큼 반복
-			for(int rowIndex = 8; rowIndex<rows; rowIndex++){
-				EtcList = new ArrayList<String>();
-				String currentMargin = null;
+			for(int rowIndex = 0; rowIndex<rows; rowIndex++){
+				etcList = new ArrayList<String>();
 				XSSFRow row = sheet.getRow(rowIndex);
+				
+				String currentMargin = null;
+				String startDate = null;
+				String endDate = null;
+				String barCode = null;
+				String price = null;				
+				
+				
 				
 				if(row == null) continue;
 				
@@ -73,37 +105,49 @@ public class FileInput{
 					}
 					
 					//시작행
-					if(rowIndex >= 8){
+					if(rowIndex >= 8){						
 						switch(columnIndex){
 							case 0 : //시작일
-							case 1 : //종료일
-							case 4 : //단품코드(바코드)
-							case 11 : //행사매가(행사가)
-								EtcList.add(value);
+								startDate = value;
 								break;
-							case 12 : //행사마진			
+							case 1 : //종료일
+								endDate = value;
+								break;
+							case 4 : //단품코드(바코드)
+								barCode = value;
+								break;
+							case 11 : //행사매가(행사가)
+								price = value;
+								break;
+							case 12 : //행사마진
 								currentMargin = value;
 								break;
 						}
 					}
 				}
+				etcList.add(String.valueOf(jumpoCode));
+				etcList.add(barCode);
+				etcList.add(price);
+				etcList.add(startDate);
+				etcList.add(endDate);				
+				
 				if(currentMargin == null) continue;
 				
-				if(MarginMap.containsKey(currentMargin)){
-					tmpList = MarginMap.get(currentMargin);
-					tmpList.add(EtcList);
+				if(marginMap.containsKey(currentMargin)){
+					tmpList = marginMap.get(currentMargin);
+					tmpList.add(etcList);
 				}else{
 					tmpList = new ArrayList<ArrayList<String>>();
-					tmpList.add(EtcList);
-					MarginMap.put(currentMargin, tmpList);
+					tmpList.add(etcList);
+					marginMap.put(currentMargin, tmpList);
 				}
 			}
-			SheetMap.put(sheetName, MarginMap);
+			sheetMap.put(sheetName, marginMap);
 		}
 	}
 
 	public HashMap<String, HashMap> getSheetMap() {
-		return SheetMap;
+		return sheetMap;
 	}
 
 }
