@@ -48,32 +48,33 @@ public class FileOutput {
 					String currentMargin = margin;
 					ArrayList<ArrayList<String>> etcList = marginMap.get(margin);
 					
-					//헤더 세팅
-					if(rowIndex == 0){
-						row = sheet.createRow((short)rowIndex);
-						XSSFCellStyle style = workBook.createCellStyle();
-						style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-						style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-						//style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-						
-						row.getCell(0).setCellStyle(style);
-					}else{
+					
 						//etc단위 반복
 						for(ArrayList<String> etcData : etcList){
 							row = sheet.createRow((short)rowIndex);
-							rowIndex++;
+							
+//							XSSFCellStyle style = workBook.createCellStyle();
+//							//style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+//							row.setRowStyle(style);
+							
 							cell = row.createCell(0);
 							cell.setCellValue(String.valueOf(rowIndex));
 
 							//column단위 반복
 							for(int columnIndex=0; columnIndex < etcData.size(); columnIndex++){
+//								if(rowIndex == 0){
+//									style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+//									style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+//									row.setRowStyle(style);
+//								}
 								//생성된 row에 column생성
 								cell = row.createCell(columnIndex+1);
 								//리스트에 담긴 데이터를 가져와 cell에 add함
 								cell.setCellValue(etcData.get(columnIndex));
 							}
+							rowIndex++;
 						}
-					}
+					
 																
 					//파일 쓰기
 					try {
