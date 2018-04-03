@@ -70,13 +70,31 @@ public class FileInput{
 			for(int i= 0; i<rows;i++){
 				XSSFRow row = sheet.getRow(i);
 				XSSFCell cell = row.getCell(4);
-				barcodeList.add(cell.getStringCellValue());
+				String value = null;
+				
+				switch(cell.getCellType()){
+					case XSSFCell.CELL_TYPE_FORMULA:
+	                    value=cell.getCellFormula();
+	                    break;
+	                case XSSFCell.CELL_TYPE_NUMERIC:
+	                	cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+	                    value=cell.getStringCellValue()+"";
+	                    break;
+	                case XSSFCell.CELL_TYPE_STRING:
+	                    value=cell.getStringCellValue()+"";
+	                    break;
+	                case XSSFCell.CELL_TYPE_ERROR:
+	                    value=cell.getErrorCellValue()+"";
+	                    break;
+				}
+				barcodeList.add(value);
 			}
 					
 			//행의 수만큼 반복
 			for(int rowIndex = 0; rowIndex<rows; rowIndex++){
 				etcList = new ArrayList<String>();
 				XSSFRow row = sheet.getRow(rowIndex);
+				
 				
 				String currentMargin = null;
 				String startDate = null;
@@ -129,10 +147,10 @@ public class FileInput{
 										System.exit(0);
 									}
 									//단품코드가 중복되는지 확인
-									if(barcodeList.contains(value) == true){
-										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
-										System.exit(0);
-									}
+//									if(barcodeList.contains(value) == true){
+//										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
+//										System.exit(0);
+//									}
 									barCode = value;
 									break;
 								case 11 : //행사매가(행사가)
