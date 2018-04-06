@@ -132,7 +132,7 @@ public class FileOutput {
 									//리스트에 담긴 데이터를 가져와 cell에 add함
 									if(columnIndex == 0){
 										cell.setCellValue(String.valueOf(rowIndex));
-									}else if(columnIndex == 3 || columnIndex == 5){
+									}else if(columnIndex == 3){
 					                    cell.setCellValue(Integer.parseInt(etcData.get(columnIndex-1)));
 									}else {
 										cell.setCellValue(etcData.get(columnIndex-1));

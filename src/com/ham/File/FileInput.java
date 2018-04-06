@@ -24,7 +24,7 @@ public class FileInput{
 	private int rows;
 	private int cells;
 	
-	private int jumpoCode;
+	private String jumpoCode;
 	
 	XSSFWorkbook workBook;
 	
@@ -59,7 +59,7 @@ public class FileInput{
 				case "경기점" :
 					jumpoCode = FileInputConfig.GYEONGGI;
 					break;
-				case "명동" :
+				case "본점" :
 					jumpoCode = FileInputConfig.MYEONGDONG;
 					break;
 				default :
@@ -199,7 +199,7 @@ public class FileInput{
 						}
 					}
 				}
-				etcList.add(String.valueOf(jumpoCode));
+				etcList.add(jumpoCode);
 				etcList.add(barCode);
 				etcList.add(price);
 				etcList.add(startDate);
