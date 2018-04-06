@@ -146,11 +146,16 @@ public class FileInput{
 										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + (rowIndex+1) + "행의 바코드를 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
 										System.exit(0);
 									}
-									//단품코드가 중복되는지 확인
-//									if(barcodeList.contains(value) == true){
-//										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
-//										System.exit(0);
-//									}
+									int count = 0;
+									for(int k = 0; k<barcodeList.size();k++){
+										if(value.equals(barcodeList.get(k))){
+											count++;
+										}
+									}
+									if(count > 1){
+										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
+										System.exit(0);
+									}
 									barCode = value;
 									break;
 								case 11 : //행사매가(행사가)
