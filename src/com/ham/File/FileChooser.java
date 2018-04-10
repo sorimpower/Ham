@@ -46,7 +46,6 @@ public class FileChooser{
 				break;
 			case JFileChooser.CANCEL_OPTION :
 			default:
-				JOptionPane.showMessageDialog(null, "파일을 선택해 주세요", "메시지", JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 				break;
 		}

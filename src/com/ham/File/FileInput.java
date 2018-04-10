@@ -28,6 +28,8 @@ public class FileInput{
 	
 	XSSFWorkbook workBook;
 	
+	StringBuffer errorMessage = new StringBuffer();
+	
 	public FileInput(String filePath) throws Exception {
 		FileInputStream inputStream = new FileInputStream(filePath);
 		workBook = new XSSFWorkbook(inputStream); //workbook생성
@@ -82,6 +84,7 @@ public class FileInput{
 	                    break;
 	                case XSSFCell.CELL_TYPE_STRING:
 	                    value=cell.getStringCellValue()+"";
+	                    value = value.trim();
 	                    break;
 	                case XSSFCell.CELL_TYPE_ERROR:
 	                    value=cell.getErrorCellValue()+"";
@@ -140,11 +143,11 @@ public class FileInput{
 									endDate = value;
 									break;
 								case 4 : //단품코드(바코드)
+									value = value.trim();
 									//단품코드 13자리인지 확인
 									if(value.length() != 13){
-										System.out.println(value);
-										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + (rowIndex+1) + "행의 바코드를 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
-										System.exit(0);
+										errorMessage.append("시트 : "+ sheetName + "에서 " + (rowIndex+1) + "행의 바코드를 확인해주세요!");
+										errorMessage.append(System.getProperty("line.separator"));
 									}
 									int count = 0;
 									for(int k = 0; k<barcodeList.size();k++){
@@ -153,8 +156,8 @@ public class FileInput{
 										}
 									}
 									if(count > 1){
-										JOptionPane.showMessageDialog(null, "시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!", "메시지", JOptionPane.ERROR_MESSAGE);
-										System.exit(0);
+										errorMessage.append("시트 : "+ sheetName + "에서 " + value + "바코드가 중복됩니다. 확인해주세요!");
+										errorMessage.append(System.getProperty("line.separator"));
 									}
 									barCode = value;
 									break;
@@ -165,13 +168,13 @@ public class FileInput{
 									Double tmpValue = Double.parseDouble(value);  
 									int tmpIntValue = 0;
 									if(1 <= tmpValue && tmpValue <= 15){
-										if(sheetName == "대구"){
+										if(sheetName.equals("대구점")){
 											tmpIntValue = 11;
 										}else{
 											tmpIntValue = 10;
 										}
 									}else if(15 < tmpValue && tmpValue <= 17.5){
-										if(sheetName == "경기" || sheetName == "대구"){
+										if(sheetName.equals("경기점") || sheetName.equals("대구점")){
 											tmpIntValue = 16;
 										}else{
 											tmpIntValue = 15;
@@ -179,15 +182,15 @@ public class FileInput{
 									}else if(17.5 < tmpValue && tmpValue <= 19.5){
 										tmpIntValue = 18;
 									}else if(19.5 < tmpValue && tmpValue <= 22){
-										if(sheetName == "마산"){
+										if(sheetName.equals("마산점")){
 											tmpIntValue = 20;
 										}else{
 											tmpIntValue = 21;
 										}
 									}else if(22 < tmpValue){
-										if(sheetName == "마산"){
+										if(sheetName.equals("마산점")){
 											tmpIntValue = 20;
-										}else if(sheetName == "광주"){
+										}else if(sheetName.equals("광주점")){
 											tmpIntValue = 21;
 										}else{
 											tmpIntValue = 23;
@@ -217,6 +220,10 @@ public class FileInput{
 				}
 			}
 			sheetMap.put(sheetName, marginMap);
+		}
+		if(errorMessage.length() != 0){
+			JOptionPane.showMessageDialog(null, errorMessage.toString(), "메시지", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 

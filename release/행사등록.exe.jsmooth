@@ -3,10 +3,10 @@
 <arguments></arguments>
 <currentDirectory>.</currentDirectory>
 <embeddedJar>true</embeddedJar>
-<executableName>행사등록.exe</executableName>
-<iconLocation>icon2.png</iconLocation>
+<executableName>aaa.exe</executableName>
+<iconLocation>icon\icon3.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>ExcelTransformer.jar</jarLocation>
+<jarLocation>ExcelTransform.jar</jarLocation>
 <mainClassName>Main.Main</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
