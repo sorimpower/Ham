@@ -167,13 +167,13 @@ public class FileInput{
 								case 12 : //행사마진
 									Double tmpValue = Double.parseDouble(value);  
 									int tmpIntValue = 0;
-									if(1 <= tmpValue && tmpValue <= 15){
+									if(1 <= tmpValue && tmpValue < 15){
 										if(sheetName.equals("대구점")){
 											tmpIntValue = 11;
 										}else{
 											tmpIntValue = 10;
 										}
-									}else if(15 < tmpValue && tmpValue <= 17.5){
+									}else if(15 <= tmpValue && tmpValue <= 17.5){
 										if(sheetName.equals("경기점") || sheetName.equals("대구점")){
 											tmpIntValue = 16;
 										}else{

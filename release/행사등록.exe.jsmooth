@@ -6,7 +6,7 @@
 <executableName>aaa.exe</executableName>
 <iconLocation>icon\icon3.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>ExcelTransform.jar</jarLocation>
+<jarLocation>ExcelTransformer.jar</jarLocation>
 <mainClassName>Main.Main</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
